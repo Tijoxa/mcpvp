@@ -1,0 +1,8 @@
+name: MyPlugin
+main: com.mycompany.app.MyPlugin
+version: 1.0
+api-version: 1.8
+commands:
+  kits:
+    description: List all available kits.
+    usage: /kits
