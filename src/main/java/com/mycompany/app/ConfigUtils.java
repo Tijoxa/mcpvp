@@ -7,6 +7,7 @@ public final class ConfigUtils {
     private ConfigUtils() {
     }
 
+    // Soup
     public static boolean isFastHealth() {
         return true;
     }
@@ -26,4 +27,18 @@ public final class ConfigUtils {
     public static Sound getFastHungerSound() {
         return Sound.BURP;
     }
+
+    // Kangaroo
+    public static int kangarooFallDamage() {
+        return 7;
+    }
+
+    public static double kangarooJump() {
+        return 0.9;
+    }
+
+    public static double kangarooLounge() {
+        return 1.3;
+    }
+
 }

@@ -1,13 +1,9 @@
 package com.mycompany.app.listeners;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,18 +13,11 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
+import com.mycompany.app.ConfigUtils;
+
 public class KangarooOverrideListener implements Listener {
 
-    private final FileConfiguration config;
     private final HashMap<UUID, Integer> jumpsUsed = new HashMap<>();
-
-    public KangarooOverrideListener() {
-        File configFile = new File("plugins/Kangaroo-Rocket/config.yml");
-        if (!configFile.exists()) {
-            Bukkit.getLogger().severe("[MyPlugin] ERROR: Could not find Kangaroo-Rocket/config.yml!");
-        }
-        this.config = YamlConfiguration.loadConfiguration(configFile);
-    }
 
     @EventHandler
     public void onFireworkJump(PlayerInteractEvent event) {
@@ -44,8 +33,8 @@ public class KangarooOverrideListener implements Listener {
         event.setCancelled(true); // Cancel the event to prevent interference
 
         // Read Jump and Lounge values from config
-        double verticalJump = config.getDouble("Kangaroo.Jump", 0.9);
-        double horizontalJump = config.getDouble("Kangaroo.Lounge", 1.3);
+        double verticalJump = ConfigUtils.kangarooJump();
+        double horizontalJump = ConfigUtils.kangarooLounge();
 
         if (player.isSneaking()) {
             int jumps = jumpsUsed.getOrDefault(playerId, 0);
@@ -89,8 +78,7 @@ public class KangarooOverrideListener implements Listener {
 
             if (hasFirework) {
                 double defaultFallDamage = event.getDamage(); // Normal fall damage
-                double maxFallDamage = config.getDouble("Kangaroo.FallDamage", 7); // Max from config
-                double finalFallDamage = Math.min(defaultFallDamage, maxFallDamage);
+                double finalFallDamage = Math.min(defaultFallDamage, ConfigUtils.kangarooFallDamage());
 
                 event.setDamage(finalFallDamage);
             }
